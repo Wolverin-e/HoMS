@@ -2,7 +2,8 @@ const { io } = require('socket.io-client');
 
 class Client {
 
-	constructor(contactID = 0, addr = "http://localhost:8000"){
+	constructor(contactID = 0, addr = null){
+		addr = addr?addr:(window?'http://'+window.location.hostname+':8000':"http://localhost:8000");
 		this.soc = io(addr)
 		this.soc.emit("contactID", contactID)
 	}

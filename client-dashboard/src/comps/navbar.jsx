@@ -1,19 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
-import { Nav, Navbar } from 'react-bootstrap'
+import { Badge, Nav, Navbar } from 'react-bootstrap'
 
 class NavBar extends Component {
 
 	render(){
 		return (
-			<Navbar bg="dark" variant="dark">
-				<Navbar.Brand>HoMS</Navbar.Brand>
+			<Navbar bg="light" variant="light">
+				<Navbar.Brand className="pr-3 border-right border-dark">
+					<img height="30" width="30" className="d-inline-block align-top mr-2" src='/favicon.png' />{' '}
+					HOMS
+				</Navbar.Brand>
 					<Nav className="mr-auto">
-					<Nav.Link as={Link} to="/call">Call</Nav.Link>
-					<Nav.Link as={Link} to="/roomservice">RoomService</Nav.Link>
+					<Nav.Link as={Link} to="/call">CALL</Nav.Link>
+					<Nav.Link as={Link} to="/roomservice">SERVICE</Nav.Link>
 				</Nav>
 
-				<b>Alpha</b>
+				<Badge pill className="p-2" variant="warning">RoomX</Badge>
 			</Navbar>
 		)
 	}

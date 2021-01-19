@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './CustomBS.scss';
 import './App.css'
 
 import { BrowserRouter, Redirect } from 'react-router-dom'
