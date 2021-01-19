@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "simple-peer": "^9.9.3",
     "socket.io": "^3.1.0",
     "socket.io-client": "^3.1.0"
   }

@@ -44,6 +44,11 @@ class SignalingServer {
 	}
 }
 
-new SignalingServer().listen(8000);
+new SignalingServer({
+	cors: {
+		origin: /.*/,
+		methods: ["GET", "POST", "OPTION"]
+	}
+}).listen(8000);
 
 // export default SignalingServer;
