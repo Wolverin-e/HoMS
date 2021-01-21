@@ -50,5 +50,3 @@ new SignalingServer({
 		methods: ["GET", "POST", "OPTION"]
 	}
 }).listen(8000);
-
-// export default SignalingServer;

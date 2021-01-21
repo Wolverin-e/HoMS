@@ -8,12 +8,13 @@ class NavBar extends Component {
 		return (
 			<Navbar bg="light" variant="light">
 				<Navbar.Brand className="pr-3 border-right border-dark">
-					<img height="30" width="30" className="d-inline-block align-top mr-2" src='/favicon.png' />{' '}
+					<img alt="logo" height="30" width="30" className="d-inline-block align-top mr-2" src='/favicon.png' />{' '}
 					HOMS
 				</Navbar.Brand>
 					<Nav className="mr-auto">
 					<Nav.Link as={Link} to="/call">CALL</Nav.Link>
 					<Nav.Link as={Link} to="/roomservice">SERVICE</Nav.Link>
+					{window.sessionStorage.getItem("id")?true:<Nav.Link as={Link} to="/registrar">REGISTER</Nav.Link>}
 				</Nav>
 
 				<Badge pill className="p-2" variant="warning">RoomX</Badge>

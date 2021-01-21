@@ -1,29 +1,46 @@
 import React, { Component } from 'react';
 import { Button, InputGroup, FormControl, Row, Col } from 'react-bootstrap';
-import Client from '../client';
+import SignalingClient from 'signaling/client';
 import Peer from 'simple-peer';
 import Notification from './notification';
+
+Peer.prototype.sendObj = function(obj) {
+	this.send(JSON.stringify(obj));
+}
+
+Peer.prototype.recvObj = function(cb) {
+	this.on('data', data => {
+		if(data.toString()){
+			try{
+				data = JSON.parse(data);
+				cb(data);
+			} catch {
+				(()=>{})();
+			}
+		}
+	})
+}
 
 class Caller extends Component {
 
 	state = {
 		id: null,
 		client: null,
-		peer: null,
+		transPeer: null,
 		recvPeer: null,
 		stream: null,
+		calling: false,
 		notifications: []
 	}
 
-	startHandler(){
-	}
-
 	onRegister = () => {
-		const client = new Client(this.state.id);
+		let id = window.sessionStorage.getItem("id");
+		id = id?id:this.state.id;
+		const client = new SignalingClient(id);
 		const recvPeer = new Peer();
 		client.onTransmission(msg => {
-			// console.log("onRegister hook: ", msg);
 			if(msg.data){
+				console.log(msg.data);
 				recvPeer.signal(msg.data);
 			}
 		})
@@ -32,23 +49,32 @@ class Caller extends Component {
 			client.transmit({data});
 		})
 
-		recvPeer.on('data', data => {
-			// console.log('OnRegister recvPeer-data hook: ' + data);
-			this.showNotification({
-				head: "Call",
-				body: ''+data
-			})
+		recvPeer.recvObj( data => {
+			if(data.stopCall){
+				// const vidObject = document.querySelector("video#localVideo");
+				// vidObject.srcObject = undefined;
+				// vidObject.pause()
+
+				// this.state.recvPeer.removeStream(this.state.stream);
+				// this.state.stream.getTracks().forEach(track => {
+				// 	track.stop();
+				// });
+
+				// this.setState({calling: false})
+				window.location.reload();
+			}
 		})
 
 		recvPeer.on('stream', stream => {
 			const vidObject = document.querySelector("video#localVideo");
 			vidObject.srcObject = stream;
-			vidObject.play();
+			vidObject.muted = false;
 
 			navigator.mediaDevices.getUserMedia({
 				video: true,
 				audio: true
 			}).then(stream => {
+				this.setState({stream, calling:true});
 				recvPeer.addStream(stream);
 			})
 		})
@@ -58,38 +84,64 @@ class Caller extends Component {
 
 	onCall = () => {
 		const client = this.state.client;
-		const peer = new Peer({initiator: true});
+		const transPeer = new Peer({initiator: true});
 
 		client.removeTransmissionListeners();
 
 		client.onTransmission(msg => {
-			// console.log("onCall hook: ", msg);
 			if(msg.data){
-				peer.signal(msg.data);
+				transPeer.signal(msg.data);
 			}
 		})
 
 		client.connectTo(this.state.id);
 
-		peer.on('signal', data => {
+		transPeer.on('signal', data => {
 			client.transmit({data});
 		})
 
-		peer.on('connect', () => {
-			peer.send("sending media!")
+		transPeer.on('connect', () => {
 			navigator.mediaDevices.getUserMedia({
 				video: {height: 400, width: 550},
 				audio: true
 			}).then(stream => {
-				peer.addStream(stream);
+				this.setState({stream})
+				transPeer.addStream(stream);
 			})
 		})
 
-		peer.on('stream', stream => {
+		transPeer.on('stream', stream => {
 			const vidObject = document.querySelector("video#localVideo");
+			vidObject.muted = false;
 			vidObject.srcObject = stream;
-			vidObject.play();
 		})
+
+		this.setState({transPeer})
+
+		this.setState({calling: true})
+	}
+
+	onHangupCall = () => {
+		// this.state.transPeer.removeStream(this.state.stream);
+		// this.state.stream.getTracks().forEach(track => {
+		// 	track.stop();
+		// });
+
+		// const vidObject = document.querySelector("video#localVideo");
+		// vidObject.srcObject = undefined;
+		// vidObject.pause()
+
+		// this.setState({calling: false});
+		this.state.transPeer.sendObj({stopCall: true})
+
+		// this.state.client.removeTransmissionListeners();
+		// this.state.client.onTransmission(msg => {
+		// 	// console.log("onRegister hook: ", msg);
+		// 	if(msg.data){
+		// 		this.state.recvPeer.signal(msg.data);
+		// 	}
+		// })
+		window.location.reload()
 	}
 
 	showNotification = notification => {
@@ -110,10 +162,14 @@ class Caller extends Component {
 	}
 
 	componentDidMount(){
+		if(window.sessionStorage.getItem("id")){
+			this.onRegister();
+		}
+
 		this.showNotification({
 			head: "Caller",
 			body: "Welcome to the Caller!",
-			// auto: true
+			auto: true
 		})
 	}
 
@@ -132,14 +188,14 @@ class Caller extends Component {
 
 				<div className="wrapper d-flex flex-column justify-content-center align-items-center">
 
-					<video id="localVideo" height="400px" poster="/vac.jpg" playsInline controls={false} autoPlay={false}/>
+					<video id="localVideo" height="400px" poster="/vac.jpg" playsInline controls={false} autoPlay muted/>
 
 					<Row className="mt-5">
 						<InputGroup as={Col}>
 							<FormControl placeholder="ID" onChange={this.onIdChange}/>
 							<InputGroup.Append>
-								<Button onClick={this.onRegister} variant="warning">Register</Button>
-								<Button onClick={this.onCall} variant="warning">Call</Button>
+								{window.sessionStorage.getItem("id")?true:<Button onClick={this.onRegister} hidden={this.state.client?true:false} variant="warning">Register</Button>}
+								<Button onClick={this.state.calling?this.onHangupCall:this.onCall} variant="warning">{this.state.calling?"HangUp":"Call"}</Button>
 							</InputGroup.Append>
 						</InputGroup>
 					</Row>
