@@ -16,6 +16,7 @@ class Registrar extends Component {
 
 	onRegister = () => {
 		window.sessionStorage.setItem("id", this.state.id);
+		window.location.reload();
 	}
 
 	render() {

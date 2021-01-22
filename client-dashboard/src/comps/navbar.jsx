@@ -5,6 +5,8 @@ import { Badge, Nav, Navbar } from 'react-bootstrap'
 class NavBar extends Component {
 
 	render(){
+
+		const id = window.sessionStorage.getItem("id");
 		return (
 			<Navbar bg="light" variant="light">
 				<Navbar.Brand className="pr-3 border-right border-dark">
@@ -14,10 +16,10 @@ class NavBar extends Component {
 					<Nav className="mr-auto">
 					<Nav.Link as={Link} to="/call">CALL</Nav.Link>
 					<Nav.Link as={Link} to="/roomservice">SERVICE</Nav.Link>
-					{window.sessionStorage.getItem("id")?true:<Nav.Link as={Link} to="/registrar">REGISTER</Nav.Link>}
+					{id?true:<Nav.Link as={Link} to="/registrar">REGISTER</Nav.Link>}
 				</Nav>
 
-				<Badge pill className="p-2" variant="warning">RoomX</Badge>
+				<Badge pill className="p-2" variant="warning">Room {id?id:"x"}</Badge>
 			</Navbar>
 		)
 	}
