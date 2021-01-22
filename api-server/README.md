@@ -1,10 +1,22 @@
 # api-server
 REST-API Server For frontend
 
+## Docker Compose
+```sh
+# Change into the current Directory
+$ cd ./api-server
+
+# Start Services
+$ docker-compose up -d
+
+# Stop Services
+$ docker-compose down
+```
+
 ## Setup
 
 ```sh
-# Change Directory
+# Change into the current Directory
 $ cd ./api-server
 
 # Install Dependencies
