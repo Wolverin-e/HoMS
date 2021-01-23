@@ -30,6 +30,7 @@ class Caller extends Component {
 		id: null,
 		client: null,
 		transPeer: null,
+		recvPeer: null,
 		calling: false,
 		notifications: []
 	}
@@ -70,7 +71,7 @@ class Caller extends Component {
 			})
 		})
 
-		this.setState({client});
+		this.setState({recvPeer, client});
 	}
 
 	onCall = () => {
@@ -100,6 +101,12 @@ class Caller extends Component {
 			})
 		})
 
+		transPeer.recvObj( data => {
+			if(data.stopCall){
+				window.location.reload();
+			}
+		})
+
 		transPeer.on('stream', stream => {
 			const vidObject = document.querySelector("video#localVideo");
 			vidObject.muted = false;
@@ -111,8 +118,12 @@ class Caller extends Component {
 	}
 
 	onHangupCall = () => {
-		this.state.transPeer.sendObj({stopCall: true})
-		window.location.reload()
+		if(this.state.transPeer){
+			this.state.transPeer.sendObj({stopCall: true})
+		} else {
+			this.state.recvPeer.sendObj({stopCall: true})
+		}
+		window.location.reload();
 	}
 
 	onIdChange = evt => {
