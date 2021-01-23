@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Button, InputGroup, FormControl, Row, Col } from 'react-bootstrap';
 import SignalingClient from 'signaling/client';
 import Peer from 'simple-peer';
-import Notification from './notification';
+
+import { connect } from "react-redux";
+import mapStateToProps from "../utils/mapStateToProps";
+import { showNotification } from "../actions/notification-actions";
 
 Peer.prototype.sendObj = function(obj) {
 	this.send(JSON.stringify(obj));
@@ -27,8 +30,6 @@ class Caller extends Component {
 		id: null,
 		client: null,
 		transPeer: null,
-		recvPeer: null,
-		stream: null,
 		calling: false,
 		notifications: []
 	}
@@ -51,16 +52,6 @@ class Caller extends Component {
 
 		recvPeer.recvObj( data => {
 			if(data.stopCall){
-				// const vidObject = document.querySelector("video#localVideo");
-				// vidObject.srcObject = undefined;
-				// vidObject.pause()
-
-				// this.state.recvPeer.removeStream(this.state.stream);
-				// this.state.stream.getTracks().forEach(track => {
-				// 	track.stop();
-				// });
-
-				// this.setState({calling: false})
 				window.location.reload();
 			}
 		})
@@ -74,12 +65,12 @@ class Caller extends Component {
 				video: true,
 				audio: true
 			}).then(stream => {
-				this.setState({stream, calling:true});
+				this.setState({calling:true});
 				recvPeer.addStream(stream);
 			})
 		})
 
-		this.setState({client, recvPeer});
+		this.setState({client});
 	}
 
 	onCall = () => {
@@ -105,7 +96,6 @@ class Caller extends Component {
 				video: {height: 400, width: 550},
 				audio: true
 			}).then(stream => {
-				this.setState({stream})
 				transPeer.addStream(stream);
 			})
 		})
@@ -117,44 +107,12 @@ class Caller extends Component {
 		})
 
 		this.setState({transPeer})
-
 		this.setState({calling: true})
 	}
 
 	onHangupCall = () => {
-		// this.state.transPeer.removeStream(this.state.stream);
-		// this.state.stream.getTracks().forEach(track => {
-		// 	track.stop();
-		// });
-
-		// const vidObject = document.querySelector("video#localVideo");
-		// vidObject.srcObject = undefined;
-		// vidObject.pause()
-
-		// this.setState({calling: false});
 		this.state.transPeer.sendObj({stopCall: true})
-
-		// this.state.client.removeTransmissionListeners();
-		// this.state.client.onTransmission(msg => {
-		// 	// console.log("onRegister hook: ", msg);
-		// 	if(msg.data){
-		// 		this.state.recvPeer.signal(msg.data);
-		// 	}
-		// })
 		window.location.reload()
-	}
-
-	showNotification = notification => {
-		var notifications = this.state.notifications;
-		notifications.push(notification);
-		this.setState({notifications});
-	}
-
-	removeNotification = id => {
-		var notifications = this.state.notifications;
-		notifications.splice(id, 1);
-		console.log(id, notifications);
-		this.setState({notifications});
 	}
 
 	onIdChange = evt => {
@@ -166,43 +124,37 @@ class Caller extends Component {
 			this.onRegister();
 		}
 
-		this.showNotification({
+		this.props.showNotification({
 			head: "Caller",
 			body: "Welcome to the Caller!",
 			auto: true
-		})
+		});
 	}
 
 	render() {
 		return (
-			<>
-				<div className="notification-row">
-					<div className="notification-col col col-sm-3">
+			<div className="wrapper d-flex flex-column justify-content-center align-items-center">
 
-						{this.state.notifications.map((noti, i) => {
-							return <Notification key={i} autohide={noti.auto} id={i} head={noti.head} headRight="now" body={noti.body} onClose={this.removeNotification}/>
-						})}
+				<video id="localVideo" height="400px" poster="/vac.jpg" playsInline controls={false} autoPlay muted/>
 
-					</div>
-				</div>
-
-				<div className="wrapper d-flex flex-column justify-content-center align-items-center">
-
-					<video id="localVideo" height="400px" poster="/vac.jpg" playsInline controls={false} autoPlay muted/>
-
-					<Row className="mt-5">
-						<InputGroup as={Col}>
-							<FormControl placeholder="ID" onChange={this.onIdChange}/>
-							<InputGroup.Append>
-								{window.sessionStorage.getItem("id")?true:<Button onClick={this.onRegister} hidden={this.state.client?true:false} variant="warning">Register</Button>}
-								<Button onClick={this.state.calling?this.onHangupCall:this.onCall} variant="warning">{this.state.calling?"HangUp":"Call"}</Button>
-							</InputGroup.Append>
-						</InputGroup>
-					</Row>
-				</div>
-			</>
+				<Row className="mt-5">
+					<InputGroup as={Col}>
+						<FormControl placeholder="ID" onChange={this.onIdChange}/>
+						<InputGroup.Append>
+							{window.sessionStorage.getItem("id")?true:<Button onClick={this.onRegister} hidden={this.state.client?true:false} variant="warning">Register</Button>}
+							<Button onClick={this.state.calling?this.onHangupCall:this.onCall} variant="warning">{this.state.calling?"HangUp":"Call"}</Button>
+						</InputGroup.Append>
+					</InputGroup>
+				</Row>
+			</div>
 		);
 	}
 }
 
-export default Caller;
+const mapDispatchToProps = dispatch => {
+	return {
+		showNotification: notification => dispatch(showNotification(notification))
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Caller);
