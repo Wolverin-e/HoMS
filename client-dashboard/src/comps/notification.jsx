@@ -7,9 +7,9 @@ const Notification = props => {
 	}
 
 	return (
-		<Toast autohide={props.autohide} delay={10000} onClose={onClose}>
+		<Toast autohide={props.autohide} delay={props.delay || 3000} onClose={onClose}>
 			<Toast.Header>
-				<img height="17px" src={props.logo?props.logo:'/favicon.png'} className="rounded mr-2" alt="" />
+				<img height="17px" src={props.logo || '/favicon.png'} className="rounded mr-2" alt="" />
 				<strong className="mr-auto">{props.head}</strong>
 				<small>{props.headRight}</small>
 			</Toast.Header>

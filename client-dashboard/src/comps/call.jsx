@@ -137,8 +137,9 @@ class Caller extends Component {
 
 		this.props.showNotification({
 			head: "Caller",
-			body: "Welcome to the Caller!",
-			auto: true
+			body: "Enter the Room-No and then Call",
+			autohide: true,
+			delay: 2000
 		});
 	}
 

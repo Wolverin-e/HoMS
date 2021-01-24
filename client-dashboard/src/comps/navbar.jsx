@@ -1,8 +1,18 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Badge, Nav, Navbar } from 'react-bootstrap'
+import { showNotification } from "../actions/notification-actions";
+import { connect } from 'react-redux';
 
 class NavBar extends Component {
+
+	componentDidMount(){
+		this.props.showNotification({
+			head: "HOMS",
+			body: "Welcome to HOMS!",
+			autohide: true
+		});
+	}
 
 	render(){
 
@@ -25,4 +35,10 @@ class NavBar extends Component {
 	}
 }
 
-export default NavBar;
+const mapDispatchToProps = dispatch => {
+	return {
+		showNotification: notification => dispatch(showNotification(notification))
+	}
+}
+
+export default connect(null, mapDispatchToProps)(NavBar);

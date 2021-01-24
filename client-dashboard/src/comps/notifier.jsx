@@ -14,7 +14,7 @@ class Notifier extends Component {
 				<div className="notification-col col col-sm-3">
 
 					{this.props.notifications.map((noti, i) => {
-						return <Notification key={i} autohide={noti.auto} id={i} head={noti.head} headRight="now" body={noti.body} onClose={this.props.removeNotification}/>
+						return <Notification key={i} id={i} headRight="now" {...noti} onClose={this.props.removeNotification}/>
 					})}
 
 				</div>
