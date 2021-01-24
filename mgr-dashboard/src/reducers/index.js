@@ -4,7 +4,7 @@ import categories from '../actions/categories'
 
 const initialState = {
 	notifications: [],
-	roomService: {}
+	serviceRequests: []
 }
 
 const rootReducer = (state = initialState, action) => {

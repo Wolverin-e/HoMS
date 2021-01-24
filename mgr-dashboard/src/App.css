@@ -30,3 +30,8 @@ html, body, #root{
 #localVideo {
 	border-radius: 15px;
 }
+
+.rs-table-head {
+	background-color: #fff000;
+	border: 0;
+}

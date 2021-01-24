@@ -1,20 +1,23 @@
-// import { ROOM_SERVICE } from './categories';
-// import { CREATE_ROOM_SERVICE_REQ } from './types';
+import { ROOM_SERVICE } from './categories';
+import { UPDATE_SERVICE_REQUESTS } from './types';
 import { showNotification } from "../actions/notification-actions";
 
 import api from '../api';
 
-export const createRoomServiceRequest = req => {
+export const updateServiceRequests = reqs => {
+	return {
+		cat: ROOM_SERVICE,
+		type: UPDATE_SERVICE_REQUESTS,
+		payload: reqs
+	}
+}
+
+export const fetchServiceRequests = req => {
 	return dispatch => {
-		api.post('/roomService/create', {...req})
+		api.get('/roomService/fetchAll')
 			.then(res => {
-				if(res.status === 200){
-					dispatch(showNotification({
-						head: "Service",
-						body: req.type+" Request Created",
-						autohide: true
-					}))
-				}
+				console.log(res.data);
+				dispatch(updateServiceRequests(res.data))
 			}).catch(err => {
 				dispatch(showNotification({
 					head: "Service Err",

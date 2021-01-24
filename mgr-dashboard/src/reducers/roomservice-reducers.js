@@ -1,10 +1,12 @@
-// import { CREATE_ROOM_SERVICE_REQ } from "../actions/types";
-// import { showNotification } from "../actions/notification-actions";
-// import api from '../api';
+import { UPDATE_SERVICE_REQUESTS } from "../actions/types";
 
 const roomServiceReducer = (state, action) => {
-
 	switch (action.type) {
+		case UPDATE_SERVICE_REQUESTS:
+			return{
+				...state,
+				serviceRequests: action.payload
+			}
 		default:
 			return state;
 	}
