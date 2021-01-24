@@ -1,0 +1,6 @@
+const actions = {
+	ADD_NOTIFICATION: "ADD_NOTIFICATION",
+	REMOVE_NOTIFICATION: "REMOVE_NOTIFICATION"
+}
+
+module.exports = actions;
