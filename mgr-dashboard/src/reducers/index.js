@@ -4,7 +4,8 @@ import categories from '../actions/categories'
 
 const initialState = {
 	notifications: [],
-	serviceRequests: []
+	pendingServiceRequests: [],
+	assignedServiceRequests: []
 }
 
 const rootReducer = (state = initialState, action) => {

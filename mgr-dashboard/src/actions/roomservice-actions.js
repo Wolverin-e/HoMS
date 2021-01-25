@@ -1,5 +1,5 @@
 import { ROOM_SERVICE } from './categories';
-import { UPDATE_SERVICE_REQUESTS } from './types';
+import { UPDATE_SERVICE_REQUESTS, ASSIGN_SERVICE_REQUEST } from './types';
 import { showNotification } from "../actions/notification-actions";
 
 import api from '../api';
@@ -16,7 +16,6 @@ export const fetchServiceRequests = () => {
 	return dispatch => {
 		api.get('/roomService/fetchAll')
 			.then(res => {
-				console.log(res.data);
 				dispatch(updateServiceRequests(res.data));
 			}).catch(err => {
 				dispatch(showNotification({
@@ -31,8 +30,14 @@ export const fetchServiceRequests = () => {
 export const assignServiceRequest = id => {
 	return dispatch => {
 		api.post('/roomService/deactivate', {id})
-			.then(() => {
-				dispatch(fetchServiceRequests())
+			.then(res => {
+				if(res.status === 200){
+					dispatch({
+						cat: ROOM_SERVICE,
+						type: ASSIGN_SERVICE_REQUEST,
+						payload: id
+					})
+				}
 			}).catch(err => {
 				dispatch(showNotification({
 					head: "Service Err",
