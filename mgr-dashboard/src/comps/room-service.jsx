@@ -10,9 +10,6 @@ import { showNotification } from '../actions/notification-actions';
 
 class RoomService extends Component {
 
-	state = {
-	}
-
 	componentDidMount(){
 		setInterval(this.props.fetchServiceRequests, 1000);
 	}
