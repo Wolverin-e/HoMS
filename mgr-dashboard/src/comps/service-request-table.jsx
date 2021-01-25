@@ -1,4 +1,4 @@
-import { Table } from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 
 const ServiceRequestTable = props => {
 
@@ -12,6 +12,7 @@ const ServiceRequestTable = props => {
 					<th>#</th>
 					<th>Room</th>
 					<th>Type</th>
+					{props.button?<th>{props.button.head}</th>:true}
 				</tr>
 			</thead>
 			<tbody>
@@ -21,6 +22,11 @@ const ServiceRequestTable = props => {
 							<td>{req.id}</td>
 							<td>{req.room_no}</td>
 							<td>{req.type}</td>
+							{props.button?<td>
+								<Button variant="warning" onClick={() => props.button.onClick(req.id)}>
+									{props.button.text}
+								</Button>
+							</td>:true}
 						</tr>
 					)
 				}

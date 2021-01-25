@@ -12,12 +12,27 @@ export const updateServiceRequests = reqs => {
 	}
 }
 
-export const fetchServiceRequests = req => {
+export const fetchServiceRequests = () => {
 	return dispatch => {
 		api.get('/roomService/fetchAll')
 			.then(res => {
 				console.log(res.data);
-				dispatch(updateServiceRequests(res.data))
+				dispatch(updateServiceRequests(res.data));
+			}).catch(err => {
+				dispatch(showNotification({
+					head: "Service Err",
+					body: err.message,
+					autohide: true
+				}))
+			})
+	}
+}
+
+export const assignServiceRequest = id => {
+	return dispatch => {
+		api.post('/roomService/deactivate', {id})
+			.then(() => {
+				dispatch(fetchServiceRequests())
 			}).catch(err => {
 				dispatch(showNotification({
 					head: "Service Err",

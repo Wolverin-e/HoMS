@@ -4,7 +4,7 @@ import ServiceRequestTable from './service-request-table';
 
 import { connect } from 'react-redux';
 import mapStateToProps from '../utils/mapStateToProps';
-import { fetchServiceRequests } from '../actions/roomservice-actions';
+import { fetchServiceRequests, assignServiceRequest } from '../actions/roomservice-actions';
 import { showNotification } from '../actions/notification-actions';
 
 
@@ -18,14 +18,20 @@ class RoomService extends Component {
 	}
 
 	render() {
+		const pending = this.props.serviceRequests.filter(x => !x.status);
+		const assigned = this.props.serviceRequests.filter(x => x.status);
 		return (
 			<Container className="pt-4">
 				<Row>
 					<Col>
-						<ServiceRequestTable lable="PENDING" reqs={this.props.serviceRequests}/>
+						<ServiceRequestTable lable="PENDING" reqs={pending} button={{
+							head: "Assign",
+							text: "move",
+							onClick: this.props.assignServiceRequest
+						}}/>
 					</Col>
 					<Col>
-						<ServiceRequestTable lable="ASSIGNED" reqs={this.props.serviceRequests}/>
+						<ServiceRequestTable lable="ASSIGNED" reqs={assigned}/>
 					</Col>
 				</Row>
 			</Container>
@@ -36,6 +42,7 @@ class RoomService extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchServiceRequests: () => dispatch(fetchServiceRequests()),
+		assignServiceRequest: id => dispatch(assignServiceRequest(id)),
 		showNotification: not => dispatch(showNotification(not))
 	}
 }
