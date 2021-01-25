@@ -1,6 +1,9 @@
 const Express = require('express');
 const bodyParser = require('body-parser')
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
+
 const setRoutes = require('./routes');
 
 const PORT = 8080;
@@ -15,10 +18,14 @@ app.use(cors({
 	methods: ["GET", "POST", "OPTION"]
 }))
 
-
 setRoutes(app);
 
-app.listen(PORT, (err) => {
+const httpsServer = https.createServer({
+	key: fs.readFileSync("../certs/key.pem"),
+	cert: fs.readFileSync("../certs/cert.pem")
+}, app);
+
+httpsServer.listen(PORT, (err) => {
 	if(err) console.log(err);
 	console.log(`Listening on ${PORT}`);
 })

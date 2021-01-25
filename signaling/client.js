@@ -3,8 +3,8 @@ const { io } = require('socket.io-client');
 class SignalingClient {
 
 	constructor(contactID = 0, addr = null){
-		addr = addr?addr:(window?'http://'+window.location.hostname+':8000':"http://localhost:8000");
-		this.soc = io(addr)
+		addr = addr || (window?window.location.protocol+'//'+window.location.hostname+':8000':"https://localhost:8000");
+		this.soc = io(addr, {rejectUnauthorized: false, secure: true});
 		this.soc.emit("contactID", contactID)
 	}
 

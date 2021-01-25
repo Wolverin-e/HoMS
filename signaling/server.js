@@ -1,4 +1,10 @@
 const { Server } = require('socket.io');
+const https = require('https');
+const fs = require('fs');
+const httpsServer = https.createServer({
+	key: fs.readFileSync("../certs/key.pem"),
+	cert: fs.readFileSync("../certs/cert.pem")
+});
 
 reg = {}
 
@@ -39,8 +45,10 @@ class SignalingServer {
 	}
 
 	listen(port = 8000){
-		this.server.listen(port)
-		console.log(`Signaling Server Listening over ${port}`);
+		httpsServer.listen(port, err => {
+			console.log(`Signaling Server Listening over ${port}`);
+		});
+		this.server.listen(httpsServer);
 	}
 }
 
