@@ -1,4 +1,4 @@
-const con = require('./con');
+const con = require('../con');
 
 module.exports = (req, res) => {
 	console.log(req.body);

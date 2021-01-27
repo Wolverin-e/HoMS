@@ -10,9 +10,9 @@ const con = mysql.createConnection({
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    const sql = ""; //Add sql update query
+    const sql = ``; //Add sql update query
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log("Table Altered");
+        console.log("Database Updated");
     });
 });
