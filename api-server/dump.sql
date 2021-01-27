@@ -7,6 +7,48 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 # ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: customers
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `customers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) NOT NULL,
+  `address` varchar(250) DEFAULT NULL,
+  `phone` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: occupancy
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `occupancy` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_id` int NOT NULL,
+  `customer_id` int NOT NULL,
+  `arrival` date NOT NULL,
+  `departure` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `occupancy_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
+  CONSTRAINT `occupancy_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: rooms
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `rooms` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_no` int NOT NULL,
+  `type` varchar(250) NOT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `room_no` (`room_no`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: roomservice
 # ------------------------------------------------------------
 
@@ -19,6 +61,21 @@ CREATE TABLE IF NOT EXISTS `roomservice` (
   `additional_notes` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: customers
+# ------------------------------------------------------------
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: occupancy
+# ------------------------------------------------------------
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: rooms
+# ------------------------------------------------------------
+
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: roomservice
