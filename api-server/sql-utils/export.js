@@ -5,6 +5,7 @@ mysqldump({
         user: 'root',
         password: 'password',
         database: 'homdb',
+        port: 13306
     },
     dumpToFile: './dump.sql',
 });
