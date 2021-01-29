@@ -19,20 +19,16 @@ CREATE TABLE IF NOT EXISTS `customers` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: occupancy
+# SCHEMA DUMP FOR TABLE: occupies
 # ------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `occupancy` (
+CREATE TABLE IF NOT EXISTS `occupies` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `room_id` int NOT NULL,
   `customer_id` int NOT NULL,
+  `room_no` int NOT NULL,
   `arrival` date NOT NULL,
   `departure` date NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `room_id` (`room_id`),
-  KEY `customer_id` (`customer_id`),
-  CONSTRAINT `occupancy_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
-  CONSTRAINT `occupancy_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
@@ -40,13 +36,11 @@ CREATE TABLE IF NOT EXISTS `occupancy` (
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `rooms` (
-  `id` int NOT NULL AUTO_INCREMENT,
   `room_no` int NOT NULL,
   `type` varchar(250) NOT NULL,
   `status` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `room_no` (`room_no`)
-) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`room_no`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: roomservice
@@ -57,10 +51,11 @@ CREATE TABLE IF NOT EXISTS `roomservice` (
   `type` varchar(255) DEFAULT NULL,
   `status` int DEFAULT '0',
   `lastUpdated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `room_no` int DEFAULT NULL,
+  `room_no` int NOT NULL,
+  `customer_id` int DEFAULT NULL,
   `additional_notes` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: customers
@@ -104,58 +99,58 @@ VALUES
   );
 
 # ------------------------------------------------------------
-# DATA DUMP FOR TABLE: occupancy
+# DATA DUMP FOR TABLE: occupies
 # ------------------------------------------------------------
 
 INSERT INTO
-  `occupancy` (
+  `occupies` (
     `id`,
-    `room_id`,
     `customer_id`,
+    `room_no`,
     `arrival`,
     `departure`
   )
 VALUES
-  (1, 6, 1, '2021-01-29', '2021-01-31');
+  (1, 1, 6, '2021-01-29', '2021-01-31');
 INSERT INTO
-  `occupancy` (
+  `occupies` (
     `id`,
-    `room_id`,
     `customer_id`,
+    `room_no`,
     `arrival`,
     `departure`
   )
 VALUES
-  (2, 5, 3, '2021-01-15', '2021-01-30');
+  (2, 3, 5, '2021-01-15', '2021-01-30');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: rooms
 # ------------------------------------------------------------
 
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (1, 214, 'Suite', 0);
+  (116, 'Classic', 1);
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (2, 248, 'Delux Suite', 0);
+  (214, 'Suite', 0);
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (3, 116, 'Classic', 1);
+  (248, 'Delux Suite', 0);
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (4, 415, 'SeaView', 1);
+  (415, 'SeaView', 1);
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (5, 785, 'Duplex', 1);
+  (785, 'Duplex', 1);
 INSERT INTO
-  `rooms` (`id`, `room_no`, `type`, `status`)
+  `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (6, 817, 'TopView', 0);
+  (817, 'TopView', 0);
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: roomservice
@@ -168,10 +163,11 @@ INSERT INTO
     `status`,
     `lastUpdated`,
     `room_no`,
+    `customer_id`,
     `additional_notes`
   )
 VALUES
-  (1, 'Food', 0, '2021-01-28 18:44:50', 279, 'None');
+  (1, 'Food', 0, '2021-01-28 18:44:50', 279, NULL, 'None');
 INSERT INTO
   `roomservice` (
     `id`,
@@ -179,10 +175,19 @@ INSERT INTO
     `status`,
     `lastUpdated`,
     `room_no`,
+    `customer_id`,
     `additional_notes`
   )
 VALUES
-  (2, 'Cleaning', 1, '2021-01-28 18:44:27', 279, 'None');
+  (
+    2,
+    'Cleaning',
+    1,
+    '2021-01-28 18:44:27',
+    279,
+    NULL,
+    'None'
+  );
 INSERT INTO
   `roomservice` (
     `id`,
@@ -190,10 +195,19 @@ INSERT INTO
     `status`,
     `lastUpdated`,
     `room_no`,
+    `customer_id`,
     `additional_notes`
   )
 VALUES
-  (3, 'Emergency', 1, '2021-01-28 18:44:28', 279, 'None');
+  (
+    3,
+    'Emergency',
+    1,
+    '2021-01-28 18:44:28',
+    279,
+    NULL,
+    'None'
+  );
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
