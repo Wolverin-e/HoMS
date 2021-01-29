@@ -10,8 +10,20 @@ import { showNotification } from '../actions/notification-actions';
 
 class RoomService extends Component {
 
+	state = {
+		prevIntervalService: null
+	}
+
 	componentDidMount(){
-		setInterval(this.props.fetchServiceRequests, 1000);
+		this.setState({
+			prevIntervalService: setInterval(this.props.fetchServiceRequests, 1000)
+		})
+	}
+
+	componentWillUnmount(){
+		if(this.state.prevIntervalService){
+			clearInterval(this.state.prevIntervalService);
+		}
 	}
 
 	render() {

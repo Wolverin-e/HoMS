@@ -13,6 +13,7 @@ export const updateServiceRequests = reqs => {
 }
 
 export const fetchServiceRequests = () => {
+	console.log("roomservices fetched!");
 	return dispatch => {
 		api.get('/roomService/fetchAll')
 			.then(res => {
