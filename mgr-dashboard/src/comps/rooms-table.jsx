@@ -8,7 +8,6 @@ const RoomsTable = props => {
 					<th colSpan={3}>{props.lable}</th>
 				</tr>
 				<tr>
-					<th>#</th>
 					<th>Room No</th>
 					<th>Type</th>
 				</tr>
@@ -17,7 +16,6 @@ const RoomsTable = props => {
 				{
 					props.rooms.map((room, i) =>
 						<tr key={i}>
-							<td>{room.id}</td>
 							<td>{room.room_no}</td>
 							<td>{room.type}</td>
 						</tr>

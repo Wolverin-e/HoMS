@@ -27,6 +27,7 @@ class NavBar extends Component {
 					<Nav.Link as={Link} to="/call">CALL</Nav.Link>
 					<Nav.Link as={Link} to="/roomservice">SERVICE</Nav.Link>
 					<Nav.Link as={Link} to="/rooms">ROOMS</Nav.Link>
+					<Nav.Link as={Link} to="/customers">CUSTOMERS</Nav.Link>
 				</Nav>
 
 				<Badge pill className="p-2" variant="warning">Manager</Badge>
