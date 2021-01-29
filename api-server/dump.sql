@@ -13,8 +13,8 @@
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(250) NOT NULL,
-  `address` varchar(250) DEFAULT NULL,
   `phone` bigint DEFAULT NULL,
+  `address` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -62,40 +62,40 @@ CREATE TABLE IF NOT EXISTS `roomservice` (
 # ------------------------------------------------------------
 
 INSERT INTO
-  `customers` (`id`, `name`, `address`, `phone`)
+  `customers` (`id`, `name`, `phone`, `address`)
 VALUES
   (
     1,
     'Charles Jennings',
-    '1007 Late Avenue, Enid, Oklahoma',
-    5807376762
+    5807376762,
+    '1007 Late Avenue, Enid, Oklahoma'
   );
 INSERT INTO
-  `customers` (`id`, `name`, `address`, `phone`)
+  `customers` (`id`, `name`, `phone`, `address`)
 VALUES
   (
     2,
     'Ms. Eldora Murazik',
-    '86675 Carter Alley, North Maymie, Bilzen',
-    9265309360
+    9265309360,
+    '86675 Carter Alley, North Maymie, Bilzen'
   );
 INSERT INTO
-  `customers` (`id`, `name`, `address`, `phone`)
+  `customers` (`id`, `name`, `phone`, `address`)
 VALUES
   (
     3,
     'Prof. Jovani Rippin V',
-    '65966 Brody Alley, South Ernieview, Bilzen',
-    7573917542
+    7573917542,
+    '65966 Brody Alley, South Ernieview, Bilzen'
   );
 INSERT INTO
-  `customers` (`id`, `name`, `address`, `phone`)
+  `customers` (`id`, `name`, `phone`, `address`)
 VALUES
   (
     4,
     'Adell Keeling Sr.',
-    '6849 Heller Bypass Apt. 535, West Percyton, Bilzen',
-    3705056501
+    3705056501,
+    '6849 Heller Bypass Apt. 535, West Percyton, Bilzen'
   );
 
 # ------------------------------------------------------------
@@ -111,7 +111,7 @@ INSERT INTO
     `departure`
   )
 VALUES
-  (1, 1, 6, '2021-01-29', '2021-01-31');
+  (1, 1, 415, '2021-01-29', '2021-01-31');
 INSERT INTO
   `occupies` (
     `id`,
@@ -121,7 +121,7 @@ INSERT INTO
     `departure`
   )
 VALUES
-  (2, 3, 5, '2021-01-15', '2021-01-30');
+  (2, 3, 785, '2021-01-15', '2021-01-30');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: rooms
@@ -138,7 +138,7 @@ VALUES
 INSERT INTO
   `rooms` (`room_no`, `type`, `status`)
 VALUES
-  (248, 'Delux Suite', 0);
+  (248, 'Delux Suite', 1);
 INSERT INTO
   `rooms` (`room_no`, `type`, `status`)
 VALUES
