@@ -11,6 +11,12 @@ rm -rf ./node_modules
 rm -rf ./build
 popd
 
+# mgr-dashboard
+pushd mgr-dashboard
+rm -rf ./node_modules
+rm -rf ./build
+popd
+
 # signaling
 pushd signaling
 rm -rf ./node_modules
