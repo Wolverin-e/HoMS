@@ -28,7 +28,11 @@ CREATE TABLE IF NOT EXISTS `occupies` (
   `room_no` int NOT NULL,
   `arrival` date NOT NULL,
   `departure` date NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `customer_id` (`customer_id`, `room_no`),
+  KEY `room_no` (`room_no`),
+  CONSTRAINT `occupies_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
+  CONSTRAINT `occupies_ibfk_2` FOREIGN KEY (`room_no`) REFERENCES `rooms` (`room_no`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
@@ -55,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `roomservice` (
   `customer_id` int DEFAULT NULL,
   `additional_notes` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: customers
