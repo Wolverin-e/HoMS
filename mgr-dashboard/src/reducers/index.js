@@ -6,8 +6,7 @@ import customersReducer from './customers-reducer';
 
 const initialState = {
 	notifications: [],
-	pendingServiceRequests: [],
-	assignedServiceRequests: [],
+	serviceRequests: [],
 	rooms: [],
 	customers: []
 }

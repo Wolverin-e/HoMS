@@ -15,30 +15,24 @@ class RoomService extends Component {
 	}
 
 	componentDidMount(){
-		this.setState({
-			prevIntervalService: setInterval(this.props.fetchServiceRequests, 1000)
-		})
-	}
-
-	componentWillUnmount(){
-		if(this.state.prevIntervalService){
-			clearInterval(this.state.prevIntervalService);
-		}
+		this.props.fetchServiceRequests();
 	}
 
 	render() {
+		const pendingServiceRequests = this.props.serviceRequests.filter(x => !x.status);
+		const assignedServiceRequests = this.props.serviceRequests.filter(x => x.status);
 		return (
 			<Container className="pt-4">
 				<Row>
 					<Col>
-						<ServiceRequestTable lable="PENDING" reqs={this.props.pendingServiceRequests} button={{
+						<ServiceRequestTable lable="PENDING" reqs={pendingServiceRequests} button={{
 							head: "Assign",
 							text: "move",
 							onClick: this.props.assignServiceRequest
 						}}/>
 					</Col>
 					<Col>
-						<ServiceRequestTable lable="ASSIGNED" reqs={this.props.assignedServiceRequests}/>
+						<ServiceRequestTable lable="ASSIGNED" reqs={assignedServiceRequests}/>
 					</Col>
 				</Row>
 			</Container>

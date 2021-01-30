@@ -39,7 +39,7 @@ class Rooms extends Component {
 		this.setState(x);
 	}
 
-	onClickAllot = () => {
+	onClickAllocate = () => {
 		if(!(this.state.room_no && this.state.room_no)) return;
 		this.props.allocateRoom(this.state);
 	}
@@ -52,6 +52,7 @@ class Rooms extends Component {
 			<Container className="pt-4">
 				<Row className="justify-content-center pb-4">
 					<InputGroup as={Col}>
+
 						<FormControl id="room_no" as="select" onChange={this.onSelectChange}>
 							<option> Select Room </option>
 							{available_rooms.map((x, i) => 
@@ -60,6 +61,7 @@ class Rooms extends Component {
 								</option>
 							)}
 						</FormControl>
+
 						<FormControl id="customer_id" as="select" onChange={this.onSelectChange}>
 							<option> Select Customer </option>
 							{this.props.customers.map((x, i) => 
@@ -68,6 +70,7 @@ class Rooms extends Component {
 								</option>
 							)}
 						</FormControl>
+
 						<DateRangePicker initialSettings={{
 							startDate: moment(),
 							endDate: moment().add(7, 'Days'),
@@ -80,9 +83,11 @@ class Rooms extends Component {
 						}} onCallback={this.onRangeChange}>
 							<FormControl placeholder="Date"/>
 						</DateRangePicker>
+
 						<InputGroup.Append>
-							<Button onClick={this.onClickAllot}>Allot</Button>
+							<Button onClick={this.onClickAllocate}>Allocate</Button>
 						</InputGroup.Append>
+
 					</InputGroup>
 				</Row>
 				<Row>

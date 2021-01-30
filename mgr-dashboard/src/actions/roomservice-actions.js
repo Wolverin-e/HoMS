@@ -1,5 +1,5 @@
 import { ROOM_SERVICE } from './categories';
-import { UPDATE_SERVICE_REQUESTS, ASSIGN_SERVICE_REQUEST } from './types';
+import { UPDATE_SERVICE_REQUESTS } from './types';
 import { showNotification } from "../actions/notification-actions";
 
 import api from '../api';
@@ -33,11 +33,12 @@ export const assignServiceRequest = id => {
 		api.post('/roomService/deactivate', {id})
 			.then(res => {
 				if(res.status === 200){
-					dispatch({
-						cat: ROOM_SERVICE,
-						type: ASSIGN_SERVICE_REQUEST,
-						payload: id
-					})
+					dispatch(fetchServiceRequests());
+					dispatch(showNotification({
+						head: "Room Service",
+						body: "Assigned Successfully",
+						autohide: true
+					}));
 				}
 			}).catch(err => {
 				dispatch(showNotification({
