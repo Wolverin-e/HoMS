@@ -7,6 +7,7 @@ RoomsRouter
 	.post('/allocate', require('./allocate'))
 	.post('/maintain', require('./maintain'))
 	.post('/makeAvailable', require('./makeAvailable'))
+	.post('/checkout', require('./checkout'))
 	.get('/fetchAll', require('./fetchAll'));
 
 module.exports = RoomsRouter;

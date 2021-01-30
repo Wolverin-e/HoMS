@@ -6,7 +6,8 @@ module.exports = (req, res) => {
 				 LEFT JOIN occupies ON ( \
 					rooms.room_no=occupies.room_no AND \
 					occupies.arrival<=CURDATE() AND \
-					CURDATE()<=occupies.departure \
+					CURDATE()<=occupies.departure AND \
+					occupies.checked_out=0
 				 )`;
 	con.query(sql, function(err, result, fields) {
 		if(err) throw err;
