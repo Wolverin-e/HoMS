@@ -19,6 +19,17 @@ CREATE TABLE IF NOT EXISTS `customers` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: rooms
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `rooms` (
+  `room_no` int NOT NULL,
+  `type` varchar(250) NOT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`room_no`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+
+# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: occupies
 # ------------------------------------------------------------
 
@@ -34,17 +45,6 @@ CREATE TABLE IF NOT EXISTS `occupies` (
   CONSTRAINT `occupies_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   CONSTRAINT `occupies_ibfk_2` FOREIGN KEY (`room_no`) REFERENCES `rooms` (`room_no`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: rooms
-# ------------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS `rooms` (
-  `room_no` int NOT NULL,
-  `type` varchar(250) NOT NULL,
-  `status` int DEFAULT NULL,
-  PRIMARY KEY (`room_no`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: roomservice
@@ -103,31 +103,6 @@ VALUES
   );
 
 # ------------------------------------------------------------
-# DATA DUMP FOR TABLE: occupies
-# ------------------------------------------------------------
-
-INSERT INTO
-  `occupies` (
-    `id`,
-    `customer_id`,
-    `room_no`,
-    `arrival`,
-    `departure`
-  )
-VALUES
-  (1, 1, 415, '2021-01-29', '2021-01-31');
-INSERT INTO
-  `occupies` (
-    `id`,
-    `customer_id`,
-    `room_no`,
-    `arrival`,
-    `departure`
-  )
-VALUES
-  (2, 3, 785, '2021-01-15', '2021-01-30');
-
-# ------------------------------------------------------------
 # DATA DUMP FOR TABLE: rooms
 # ------------------------------------------------------------
 
@@ -155,6 +130,31 @@ INSERT INTO
   `rooms` (`room_no`, `type`, `status`)
 VALUES
   (817, 'TopView', 0);
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: occupies
+# ------------------------------------------------------------
+
+INSERT INTO
+  `occupies` (
+    `id`,
+    `customer_id`,
+    `room_no`,
+    `arrival`,
+    `departure`
+  )
+VALUES
+  (1, 1, 415, '2021-01-29', '2021-01-31');
+INSERT INTO
+  `occupies` (
+    `id`,
+    `customer_id`,
+    `room_no`,
+    `arrival`,
+    `departure`
+  )
+VALUES
+  (2, 3, 785, '2021-01-15', '2021-01-30');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: roomservice
