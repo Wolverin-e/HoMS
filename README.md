@@ -4,6 +4,12 @@ Course Project of:
 1. Computer Networks
 2. Database Systems
 
+<p align="center">
+  <kbd>
+    <img src=".readme/imgs/client-dashboard-main.png" height="500px">
+  </kbd>
+</p>
+
 ## Requirements
 
 - Node.js >= v10.19.0
