@@ -52,3 +52,39 @@ export const allocateRoom = allocation => {
 			});
 	}
 }
+
+export const moveUnderMaintainance = room_no => {
+	return dispatch => {
+		api
+			.post('/rooms/maintain', {room_no})
+			.then(res => {
+				if(res.status === 200){
+					dispatch(fetchRooms());
+				}
+			}).catch(err => {
+				dispatch(showNotification({
+					head: "Service Err",
+					body: err.message,
+					autohide: true
+				}));
+			});
+	}
+}
+
+export const makeAvailable = room_no => {
+	return dispatch => {
+		api
+			.post('/rooms/makeAvailable', {room_no})
+			.then(res => {
+				if(res.status === 200){
+					dispatch(fetchRooms());
+				}
+			}).catch(err => {
+				dispatch(showNotification({
+					head: "Service Err",
+					body: err.message,
+					autohide: true
+				}));
+			});
+	}
+}

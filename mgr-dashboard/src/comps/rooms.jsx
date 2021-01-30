@@ -5,7 +5,7 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment';
 
 import { connect } from 'react-redux';
-import { fetchRooms, allocateRoom } from '../actions/rooms-actions';
+import { fetchRooms, allocateRoom, moveUnderMaintainance, makeAvailable } from '../actions/rooms-actions';
 import { fetchCustomers } from '../actions/customers-actions';
 import mapStateToProps from '../utils/mapStateToProps';
 
@@ -92,15 +92,49 @@ class Rooms extends Component {
 				</Row>
 				<Row>
 					<Col>
-						<RoomsTable lable="AVAILABLE" rooms={available_rooms}/>
+						<RoomsTable 
+							lable="AVAILABLE" 
+							rooms={available_rooms}
+							fieldsToShow={[
+								{head: "Room No", field: "room_no"},
+								{head: "Type", field: "type"}
+							]}
+							button={{
+								head: "Maintain",
+								text: "Move",
+								onClick: this.props.moveUnderMaintainance,
+								onClickArgs: ["room_no"]
+							}}
+						/>
 					</Col>
 					<Col>
-						<RoomsTable lable="UNDER MAINTAINANCE" rooms={under_maintainance}/>
+						<RoomsTable 
+							lable="UNDER MAINTAINANCE" 
+							rooms={under_maintainance}
+							fieldsToShow={[
+								{head: "Room No", field: "room_no"},
+								{head: "Type", field: "type"}
+							]}
+							button={{
+								head: "Make Available",
+								text: "Move",
+								onClick: this.props.makeAvailable,
+								onClickArgs: ["room_no"]
+							}}
+						/>
 					</Col>
 				</Row>
 				<Row>
 					<Col>
-						<RoomsTable lable="FILLED ROOMS" rooms={filled_rooms}/>
+						<RoomsTable 
+							lable="FILLED ROOMS" 
+							rooms={filled_rooms}
+							fieldsToShow={[
+								{head: "Room No", field: "room_no"},
+								{head: "Type", field: "type"},
+								{head: "Customer id", field: "customer_id"}
+							]}
+						/>
 					</Col>
 				</Row>
 			</Container>
@@ -112,7 +146,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		fetchRooms: () => dispatch(fetchRooms()),
 		fetchCustomers: () => dispatch(fetchCustomers()),
-		allocateRoom: allocation => dispatch(allocateRoom(allocation))
+		allocateRoom: allocation => dispatch(allocateRoom(allocation)),
+		moveUnderMaintainance: room_no => dispatch(moveUnderMaintainance(room_no)),
+		makeAvailable: room_no => dispatch(makeAvailable(room_no))
 	}
 }
 

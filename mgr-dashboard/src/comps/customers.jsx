@@ -44,7 +44,7 @@ class Customers extends Component {
 						</InputGroup>
 					</Row>
 					<Row>
-						<Table bordered hover className="text-center">
+						<Table bordered striped hover className="text-center">
 							<thead>
 								<tr className="rs-table-head">
 									<th colSpan={4}>CUSTOMERS</th>
