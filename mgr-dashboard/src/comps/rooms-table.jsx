@@ -6,10 +6,7 @@ const RoomsTable = props => {
 	const fields = props.fieldsToShow;
 	const onClickGenerator = room => {
 		const args = button.onClickArgs.map(x => room[x]);
-		return () => {
-			console.log(args);
-			button.onClick(...args)
-		};
+		return () => button.onClick(...args);
 	}
 
 	return (
