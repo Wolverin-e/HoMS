@@ -5,7 +5,7 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment';
 
 import { connect } from 'react-redux';
-import { fetchRooms, allocateRoom, moveUnderMaintainance, makeAvailable } from '../actions/rooms-actions';
+import { fetchRooms, allocateRoom, moveUnderMaintainance, makeAvailable, checkoutRoom } from '../actions/rooms-actions';
 import { fetchCustomers } from '../actions/customers-actions';
 import mapStateToProps from '../utils/mapStateToProps';
 
@@ -134,6 +134,12 @@ class Rooms extends Component {
 								{head: "Type", field: "type"},
 								{head: "Customer id", field: "customer_id"}
 							]}
+							button={{
+								head: "Checkout",
+								text: "Move",
+								onClick: this.props.checkoutRoom,
+								onClickArgs: ["room_no"]
+							}}
 						/>
 					</Col>
 				</Row>
@@ -148,7 +154,8 @@ const mapDispatchToProps = dispatch => {
 		fetchCustomers: () => dispatch(fetchCustomers()),
 		allocateRoom: allocation => dispatch(allocateRoom(allocation)),
 		moveUnderMaintainance: room_no => dispatch(moveUnderMaintainance(room_no)),
-		makeAvailable: room_no => dispatch(makeAvailable(room_no))
+		makeAvailable: room_no => dispatch(makeAvailable(room_no)),
+		checkoutRoom: room_no => dispatch(checkoutRoom(room_no))
 	}
 }
 

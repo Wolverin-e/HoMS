@@ -16,8 +16,8 @@ const RoomsTable = props => {
 					<th colSpan={4}>{props.lable}</th>
 				</tr>
 				<tr>
-					{fields.map(x => 
-						<th>{x.head}</th>
+					{fields.map((x, i) => 
+						<th key={i}>{x.head}</th>
 					)}
 					{
 						button
@@ -30,8 +30,8 @@ const RoomsTable = props => {
 				{
 					props.rooms.map((room, i) =>
 						<tr key={i}>
-							{fields.map(x => 
-								<td>{room[x.field]}</td>
+							{fields.map((x, i) => 
+								<td key={i}>{room[x.field]}</td>
 							)}
 							{
 								button

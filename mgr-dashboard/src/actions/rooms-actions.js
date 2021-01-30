@@ -88,3 +88,21 @@ export const makeAvailable = room_no => {
 			});
 	}
 }
+
+export const checkoutRoom = room_no => {
+	return dispatch => {
+		api
+			.post('/rooms/checkout', {room_no})
+			.then(res => {
+				if(res.status === 200){
+					dispatch(fetchRooms());
+				}
+			}).catch(err => {
+				dispatch(showNotification({
+					head: "Service Err",
+					body: err.message,
+					autohide: true
+				}));
+			});
+	}
+}
