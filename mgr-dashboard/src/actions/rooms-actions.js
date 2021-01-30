@@ -13,7 +13,6 @@ export const updateRooms = rooms => {
 }
 
 export const fetchRooms = () => {
-
 	return dispatch => {
 		api
 			.get('/rooms/fetchAll')
@@ -27,6 +26,29 @@ export const fetchRooms = () => {
 					body: err.message,
 					autohide: true
 				}))
-			})
-		}
+			});
+	}
+}
+
+export const allocateRoom = allocation => {
+	return dispatch => {
+		api
+			.post('/rooms/allocate', {...allocation})
+			.then(res => {
+				if(res.status === 200){
+					dispatch(fetchRooms());
+					dispatch(showNotification({
+						head: "Rooms",
+						body: "Allocated Successfully",
+						autohide: true
+					}));
+				}
+			}).catch(err => {
+				dispatch(showNotification({
+					head: "Service Err",
+					body: err.message,
+					autohide: true
+				}));
+			});
+	}
 }

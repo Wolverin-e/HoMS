@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import RoomsTable from './rooms-table';
 import { Col, Container, Row, FormControl, InputGroup, Button} from 'react-bootstrap';
+import DateRangePicker from 'react-bootstrap-daterangepicker';
+import moment from 'moment';
 
 import { connect } from 'react-redux';
-import { fetchRooms } from '../actions/rooms-actions';
+import { fetchRooms, allocateRoom } from '../actions/rooms-actions';
 import { fetchCustomers } from '../actions/customers-actions';
 import mapStateToProps from '../utils/mapStateToProps';
 
@@ -12,7 +14,9 @@ class Rooms extends Component {
 
 	state={
 		room_no: null,
-		customer_id: null
+		customer_id: null,
+		arrival: moment().format('YYYY-MM-DD'),
+		departure: moment().add(7, 'Days').format('YYYY-MM-DD')
 	}
 
 	componentDidMount(){
@@ -26,8 +30,18 @@ class Rooms extends Component {
 		this.setState(x);
 	}
 
-	onClickAllot = () => {
+	onRangeChange = (startDate, endDate) => {
+		console.log(startDate, endDate);
+		let x = {
+			arrival: startDate.format('YYYY-MM-DD'),
+			departure: endDate.format('YYYY-MM-DD')
+		}
+		this.setState(x);
+	}
 
+	onClickAllot = () => {
+		if(!(this.state.room_no && this.state.room_no)) return;
+		this.props.allocateRoom(this.state);
 	}
 
 	render() {
@@ -36,7 +50,7 @@ class Rooms extends Component {
 		const filled_rooms = this.props.rooms.filter(x => x.customer_id !== null);
 		return (
 			<Container className="pt-4">
-				{/* <Row className="justify-content-center pb-4">
+				<Row className="justify-content-center pb-4">
 					<InputGroup as={Col}>
 						<FormControl id="room_no" as="select" onChange={this.onSelectChange}>
 							<option> Select Room </option>
@@ -49,16 +63,28 @@ class Rooms extends Component {
 						<FormControl id="customer_id" as="select" onChange={this.onSelectChange}>
 							<option> Select Customer </option>
 							{this.props.customers.map((x, i) => 
-								<option key={i} value={x.customer_id}>
-									{x.name+" : "+x.phone}
+								<option key={i} value={x.id}>
+									{x.name+", "+x.phone}
 								</option>
 							)}
 						</FormControl>
+						<DateRangePicker initialSettings={{
+							startDate: moment(),
+							endDate: moment().add(7, 'Days'),
+							opens: 'center',
+							"autoApply": true,
+							locale: {
+								format: 'DD/MM/YYYY',
+								separator: ' → '
+							}
+						}} onCallback={this.onRangeChange}>
+							<FormControl placeholder="Date"/>
+						</DateRangePicker>
 						<InputGroup.Append>
 							<Button onClick={this.onClickAllot}>Allot</Button>
 						</InputGroup.Append>
 					</InputGroup>
-				</Row> */}
+				</Row>
 				<Row>
 					<Col>
 						<RoomsTable lable="AVAILABLE" rooms={available_rooms}/>
@@ -80,7 +106,8 @@ class Rooms extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchRooms: () => dispatch(fetchRooms()),
-		fetchCustomers: () => dispatch(fetchCustomers())
+		fetchCustomers: () => dispatch(fetchCustomers()),
+		allocateRoom: allocation => dispatch(allocateRoom(allocation))
 	}
 }
 

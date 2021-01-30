@@ -2,7 +2,8 @@ import { Component } from 'react';
 import store from './store';
 import { Provider } from 'react-redux';
 import './CustomBS.scss';
-import './App.css'
+import './App.css';
+import 'bootstrap-daterangepicker/daterangepicker.css';
 
 import { BrowserRouter, Redirect } from 'react-router-dom'
 import Navbar from './comps/navbar'
